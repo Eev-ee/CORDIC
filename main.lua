@@ -1,5 +1,3 @@
---https://en.wikipedia.org/wiki/CORDIC
-
 local ldexp = math.ldexp
 local atan = math.atan
 local pi = math.pi
@@ -20,7 +18,12 @@ end
 
 local function cordic( beta ) --Calculates cos(beta) and sin(beta)
 	if beta < -pi/2 or beta > pi/2 then
-		local x, y = beta < 0 and cordic(beta + pi) or cordic(beta - pi)
+		local x, y
+		if beta < 0 then
+			x, y = cordic(beta + pi)
+		else
+			x, y = cordic(beta - pi)
+		end
 		return -x, -y
 	end
 
@@ -44,6 +47,6 @@ local function cordic( beta ) --Calculates cos(beta) and sin(beta)
 
 	return x*Kn, y*Kn
 end
-local angle = math.rad(75)
+local angle = 180
 print(cordic(angle))
 print(math.cos(angle), math.sin(angle))
