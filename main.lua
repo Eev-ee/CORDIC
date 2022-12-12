@@ -34,7 +34,7 @@ local function cordic( beta ) --Calculates cos(beta), sin(beta), and the error
 	for j = 0, N - 1 do
 		local sigma = beta < 0 and -1 or 1
 		local tx = x - sigma*ldexp(y, -j)
-		local ty = sigma*ldexp(x, -j) + y
+		local ty = y + sigma*ldexp(x, -j)
 		x, y = tx, ty
 		beta = beta - sigma*angle
 
