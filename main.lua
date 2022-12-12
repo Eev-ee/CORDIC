@@ -1,5 +1,5 @@
 local ldexp = math.ldexp
-local atan = math.atan
+local atan2 = math.atan2
 local pi = math.pi
 
 local N = 50 --Numbers of iteration
@@ -9,7 +9,7 @@ local KValues = {}
 
 local p = 1/2^0.5
 for i = 1, N do
-	angles[i] = atan(ldexp(1, -(i - 1)))
+	angles[i] = atan2(1, ldexp(1, i - 1))
 	if (i + 1) <= N then
 		KValues[i] = p
 		p = p/(1 + ldexp(1, -2*i))^0.5
