@@ -2,7 +2,7 @@ local ldexp = math.ldexp
 local atan2 = math.atan2
 local pi = math.pi
 
-local N = 50 --Numbers of iteration
+local N = 55 --Numbers of iteration
 
 local angles = {}
 local KValues = {}
@@ -16,15 +16,15 @@ for i = 1, N do
 	end
 end
 
-local function cordic( beta ) --Calculates cos(beta) and sin(beta)
+local function cordic( beta ) --Calculates cos(beta), sin(beta), and the error
 	if beta < -pi/2 or beta > pi/2 then
-		local x, y
+		local x, y, err
 		if beta < 0 then
-			x, y = cordic(beta + pi)
+			x, y, err = cordic(beta + pi)
 		else
-			x, y = cordic(beta - pi)
+			x, y, err = cordic(beta - pi)
 		end
-		return -x, -y
+		return -x, -y, err
 	end
 
 	local Kn = KValues[N - 1]
@@ -45,7 +45,10 @@ local function cordic( beta ) --Calculates cos(beta) and sin(beta)
 		end
 	end
 
-	return x*Kn, y*Kn
+	local co = x*Kn
+	local si = y*Kn
+
+	return co, si, 1 - (co*co + si*si)^0.5
 end
 local angle = 180
 print(cordic(angle))
